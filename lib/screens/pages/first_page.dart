@@ -33,10 +33,17 @@ class FirstPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('Stasiun'),
-                              Text(''
-                                  // controller.savedStations[index].name
-                                  //     .toString(),
-                                  ),
+                              Text(
+                                controller.savedStations[index].name.toString(),
+                              ),
+                              Text(controller.scheduleModel.value.data!
+                                  .where((station) =>
+                                      station.stationId ==
+                                      controller.savedStations[index].id)
+                                  .map(
+                                    (station) => station.destination,
+                                  )
+                                  .toString()),
                             ],
                           ),
                         )
@@ -45,7 +52,7 @@ class FirstPage extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return Divider(
+                  return SizedBox(
                     height: 16,
                   );
                 },

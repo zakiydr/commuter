@@ -20,10 +20,11 @@ class MainScreen extends GetView<MainController> {
 
   // final stationList = prefs.
   // Controller
-  final controller = Get.put(MainController());
+  // final controller = Get.put(MainController());
 
   @override
   Widget build(BuildContext context) {
+    Get.put(MainController());
     return GetBuilder<MainController>(builder: (controller) {
       return Scaffold(
         appBar: AppBar(
@@ -33,7 +34,7 @@ class MainScreen extends GetView<MainController> {
                 onPressed: () {
                   prefs.remove('schedule');
                 },
-                icon: Icon(Icons.delete))
+                icon: Icon(Icons.delete),)
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(

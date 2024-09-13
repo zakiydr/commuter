@@ -15,42 +15,70 @@ class SecondPage extends StatelessWidget {
     final MainController controller = Get.put(MainController());
     return Obx(() => controller.isLoading.value
         ? Center(child: CircularProgressIndicator())
-        : ListView(
+        : Column(
             children: [
-              Column(
-                children: [
-                  ListView.builder(
-                    primary: false,
-                    shrinkWrap: true,
-                    itemCount: controller.listStation.value.data!.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(
-                            "${controller.listStation.value.data![index].name}"),
-                        onTap: () {
-                          Get.find<MainController>().fetchSchedule(
-                              '${controller.listStation.value.data![index].id}');
-                          Get.find<MainController>().fetchStationById(
-                              '${controller.listStation.value.data![index].id}');
-                          controller.saveStation(
-                              controller.listStation.value.data![index]);
-                        },
-                      );
-                    },
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                height: 50,
+                child: TextField(
+                  onChanged: (value) {
+                    controller.textController.value = value;
+                    controller.onSearch();
+                  },
+                  onTap: () {
+                    FocusScope.of(context).unfocus();
+                  },
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(8),
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.search),
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: controller.savedStations.value.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(controller.savedStations.value[index].name
-                            .toString()),
-                      );
-                    },
-                  )
-                ],
+                ),
               ),
+              Expanded(
+                child: Obx(() => controller.isLoading.value
+                    ? Center(child: CircularProgressIndicator())
+                    : ListView(
+                        children: [
+                          ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: controller.savedStations.length,
+                            itemBuilder: (context, index) {
+                              return Column(
+                                children: [
+                                  ListTile(
+                                    title: Text(controller
+                                        .savedStations[index].name
+                                        .toString()),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                          Divider(),
+                          ListView.builder(
+                            primary: false,
+                            shrinkWrap: true,
+                            itemCount: controller.searchResults.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text(
+                                    "${controller.searchResults[index].name}"),
+                                onTap: () {
+                                  Get.find<MainController>().fetchSchedule(
+                                      '${controller.searchResults[index].id}');
+                                  Get.find<MainController>().fetchStationById(
+                                      '${controller.searchResults[index].id}');
+                                  controller.saveStation(
+                                      controller.searchResults[index]);
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      )),
+              )
             ],
           ));
   }

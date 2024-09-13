@@ -1,3 +1,4 @@
+import 'package:commuter/controller/main_controller.dart';
 import 'package:commuter/utils/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,7 +6,6 @@ import 'package:get/get.dart';
 import 'screens/main_screen.dart';
 
 void main() {
-  // await registerService();
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
@@ -13,7 +13,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override 
+  @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
@@ -25,4 +25,4 @@ class MyApp extends StatelessWidget {
       home: MainScreen(),
     );
   }
-} 
+}
